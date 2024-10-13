@@ -2,12 +2,18 @@ package cleancode.minesweeper.tobe.io;
 
 import cleancode.minesweeper.tobe.GameBoard;
 import cleancode.minesweeper.tobe.GameException;
+import cleancode.minesweeper.tobe.cell.CellSnapshot;
+import cleancode.minesweeper.tobe.cell.CellSnapshotStatus;
 import cleancode.minesweeper.tobe.position.CellPosition;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class ConsoleOutputHandler implements OutputHandler{
+    private static final String LAND_MINE_SIGN = "☼";
+    private static final String EMPTY_SIGN = "■";
+    private static final String FLAG_SIGN = "⚑";
+    private static final String UNCHECKED_SIGN = "□";
     @Override
     public void showGameStartComments() {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -23,11 +29,34 @@ public class ConsoleOutputHandler implements OutputHandler{
             System.out.printf("%2d  ", row + 1);
             for (int col = 0; col < board.getColSize(); col++) {
                 CellPosition cellPosition = CellPosition.create(row,col);
-                System.out.print(board.getSign(cellPosition) + " ");
+
+                CellSnapshot snapShot = board.getSnapShot(cellPosition);
+                String sign = decideCellSignFrom(snapShot);
+                System.out.print(sign + " ");
             }
             System.out.println();
         }
         System.out.println();
+    }
+
+    private String decideCellSignFrom(CellSnapshot snapShot) {
+        CellSnapshotStatus status = snapShot.getStatus();
+        if(status == CellSnapshotStatus.EMPTY) {
+            return EMPTY_SIGN;
+        }
+        if(status == CellSnapshotStatus.FLAG) {
+            return FLAG_SIGN;
+        }
+        if(status == CellSnapshotStatus.LAND_MINE) {
+            return LAND_MINE_SIGN;
+        }
+        if(status == CellSnapshotStatus.NUMBER) {
+            return String.valueOf(snapShot.getNearbyLandMineCount());
+        }
+        if(status == CellSnapshotStatus.UNCHECKED) {
+            return UNCHECKED_SIGN;
+        }
+        throw new IllegalArgumentException("확인 할 수 없는 셀입니다.");
     }
 
     @Override

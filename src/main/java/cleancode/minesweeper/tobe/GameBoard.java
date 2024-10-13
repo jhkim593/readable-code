@@ -6,11 +6,7 @@ import cleancode.minesweeper.tobe.position.CellPosition;
 import cleancode.minesweeper.tobe.position.CellPositions;
 import cleancode.minesweeper.tobe.position.RelativePosition;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Stream;
 
 public class GameBoard {
 
@@ -86,10 +82,6 @@ public class GameBoard {
         return board[cellPosition.getRowIndex()][cellPosition.getColIndex()];
     }
 
-    public String getSign(CellPosition cellPosition) {
-        return board[cellPosition.getRowIndex()][cellPosition.getColIndex()].getSign();
-    }
-
     public void flagAt(CellPosition cellPosition) {
         Cell cell = findCell(cellPosition);
         cell.flag();
@@ -142,5 +134,10 @@ public class GameBoard {
 
         return cellPosition.isRowIndexMoreThanOrEqual(rowSize)
                 || cellPosition.isColIndexMoreThanOrEqual(colSize);
+    }
+
+    public CellSnapshot getSnapShot(CellPosition position) {
+        Cell cell = findCell(position);
+        return cell.getSnapShot();
     }
 }

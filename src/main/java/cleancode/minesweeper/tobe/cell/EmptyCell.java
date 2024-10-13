@@ -1,18 +1,16 @@
 package cleancode.minesweeper.tobe.cell;
 
 public class EmptyCell implements Cell {
-
-    private static final String EMPTY_SIGN = "■";
     private final CellState cellState = CellState.initialize();
     @Override
-    public String getSign() {
+    public CellSnapshot getSnapShot(){
         if(cellState.isOpened()){
-            return EMPTY_SIGN;
+            return CellSnapshot.createEmpty();
         }
         if(cellState.isFlagged()){
-            return FLAG_SIGN;
+            return CellSnapshot.createFlag();
         }
-        return UNCHECKED_SIGN;
+        return CellSnapshot.createLandMine();
     }
 
     @Override

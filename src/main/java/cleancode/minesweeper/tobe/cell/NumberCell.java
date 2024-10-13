@@ -8,16 +8,15 @@ public class NumberCell implements Cell {
     public NumberCell(int nearbyLandMineCount) {
         this.nearbyLandMineCount = nearbyLandMineCount;
     }
-
     @Override
-    public String getSign() {
+    public CellSnapshot getSnapShot(){
         if(cellState.isOpened()){
-            return String.valueOf(nearbyLandMineCount);
+            return CellSnapshot.createNumber(nearbyLandMineCount);
         }
         if(cellState.isFlagged()){
-            return FLAG_SIGN;
+            return CellSnapshot.createFlag();
         }
-        return UNCHECKED_SIGN;
+        return CellSnapshot.createLandMine();
     }
 
     @Override
