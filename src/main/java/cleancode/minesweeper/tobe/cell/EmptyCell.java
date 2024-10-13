@@ -10,7 +10,7 @@ public class EmptyCell implements Cell {
         if(cellState.isFlagged()){
             return CellSnapshot.createFlag();
         }
-        return CellSnapshot.createLandMine();
+        return CellSnapshot.createUnchecked();
     }
 
     @Override
