@@ -51,4 +51,8 @@ public class CellSnapshot {
     public static CellSnapshot createUnchecked(){
         return new CellSnapshot(CellSnapshotStatus.UNCHECKED,0);
     }
+
+    public boolean isSameStatus(CellSnapshotStatus status) {
+        return this.status == status;
+    }
 }
